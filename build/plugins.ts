@@ -14,14 +14,15 @@ import { vitePluginFakeServer } from "vite-plugin-fake-server";
 
 export function getPluginsList(
   VITE_CDN: boolean,
-  VITE_COMPRESSION: ViteCompression
+  VITE_COMPRESSION: ViteCompression,
+  VITE_ENV: ViteEnv
 ): PluginOption[] {
   const lifecycle = process.env.npm_lifecycle_event;
   return [
     vue(),
     // jsx、tsx语法支持
     vueJsx(),
-    viteBuildInfo(),
+    viteBuildInfo(VITE_ENV),
     /**
      * 开发环境下移除非必要的vue-router动态路由警告No match found for location with path
      * 非必要具体看 https://github.com/vuejs/router/issues/521 和 https://github.com/vuejs/router/issues/359

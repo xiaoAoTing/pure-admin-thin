@@ -16,7 +16,13 @@ const boxenOptions: BoxenOptions = {
   borderStyle: "round"
 };
 
-export function viteBuildInfo(): Plugin {
+const getEevMessage = (env: ViteEnv) => {
+  return gradientString("cyan", "magenta").multiline(
+    `当前环境变量: \n${JSON.stringify(env, null, 2)}`
+  );
+};
+
+export function viteBuildInfo(VITE_ENV: ViteEnv): Plugin {
   let config: { command: string };
   let startTime: Dayjs;
   let endTime: Dayjs;
@@ -29,6 +35,8 @@ export function viteBuildInfo(): Plugin {
     },
     buildStart() {
       console.log(boxen(welcomeMessage, boxenOptions));
+      console.log(boxen(getEevMessage(VITE_ENV), boxenOptions));
+
       if (config.command === "build") {
         startTime = dayjs(new Date());
       }
